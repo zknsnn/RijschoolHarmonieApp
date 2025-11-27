@@ -11,6 +11,8 @@ namespace RijschoolHarmonieApp.Models
         public UserRole Role { get; set; }
         public int? InstructorId { get; set; }
 
+        public ICollection<InstructorPrice> InstructorPrices { get; set; }
+
         public User(
             string firstName,
             string lastName,
