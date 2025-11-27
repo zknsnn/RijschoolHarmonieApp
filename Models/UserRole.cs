@@ -4,6 +4,6 @@ namespace RijschoolHarmonieApp.Models
     {
         Admin,
         Instructor,
-        Student
+        Student,
     }
 }
