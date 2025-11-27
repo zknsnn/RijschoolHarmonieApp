@@ -1,0 +1,6 @@
+@RijschoolHarmonieApp_HostAddress = http://localhost:5268
+
+GET {{RijschoolHarmonieApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
