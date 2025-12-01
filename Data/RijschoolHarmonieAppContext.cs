@@ -10,6 +10,7 @@ namespace RijschoolHarmonieApp.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<InstructorPrice> InstructorPrices { get; set; }
+        public DbSet<StudentAccount> StudentAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,11 @@ namespace RijschoolHarmonieApp.Data
                 .WithMany(u => u.InstructorPrices) // Each Instructor can have multiple InstructorPrices
                 .HasForeignKey(ip => ip.InstructorId) // Foreign key in InstructorPrice table
                 .OnDelete(DeleteBehavior.Cascade); // If Instructor is deleted, delete related prices
+
+            modelBuilder
+                .Entity<StudentAccount>()
+                .Property(sa => sa.Balance)
+                .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
 
             base.OnModelCreating(modelBuilder);
         }

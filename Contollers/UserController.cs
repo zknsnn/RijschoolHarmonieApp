@@ -1,6 +1,7 @@
 using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using RijschoolHarmonieApp.DTOs.User;
 using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Services;
 
@@ -34,8 +35,18 @@ namespace RijschoolHarmonieApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(User user)
+        public async Task<ActionResult> Create(CreateUserDto dto)
         {
+            var user = new User(
+                dto.FirstName,
+                dto.LastName,
+                dto.Email,
+                dto.PhoneNumber,
+                dto.PasswordHash,
+                dto.Role,
+                dto.InstructorId
+            );
+
             try
             {
                 await _userService.AddAsync(user);

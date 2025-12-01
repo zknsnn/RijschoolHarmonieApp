@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace RijschoolHarmonieApp.Models
 {
     public class User
@@ -11,6 +13,7 @@ namespace RijschoolHarmonieApp.Models
         public UserRole Role { get; set; }
         public int? InstructorId { get; set; }
 
+        [JsonIgnore]
         public ICollection<InstructorPrice> InstructorPrices { get; set; }
 
         public User(

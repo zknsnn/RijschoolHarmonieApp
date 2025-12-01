@@ -18,14 +18,15 @@ builder
             new System.Text.Json.Serialization.JsonStringEnumConverter()
         );
     });
-    
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInstructorPriceRepository, InstructorPriceRepository>();
 builder.Services.AddScoped<IInstructorPriceService, InstructorPriceService>();
-
+builder.Services.AddScoped<IStudentAccountRepository, StudentAccountRepository>();
+builder.Services.AddScoped<IStudentAccountService, StudentAccountService>();
 
 var app = builder.Build();
 
