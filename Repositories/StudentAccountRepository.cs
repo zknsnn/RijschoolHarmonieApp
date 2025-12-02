@@ -6,43 +6,57 @@ namespace RijschoolHarmonieApp.Repositories
 {
     public class StudentAccountRepository : IStudentAccountRepository
     {
-        private readonly RijschoolHarmonieAppContext dbHarmonie;
+        private readonly RijschoolHarmonieAppContext _dbHarmonie;
 
         public StudentAccountRepository(RijschoolHarmonieAppContext dbHarmonie)
         {
-            this.dbHarmonie = dbHarmonie;
+            _dbHarmonie = dbHarmonie;
         }
 
+        // Tüm hesapları getir, Student bilgilerini Include et
         public async Task<List<StudentAccount>> GetAllAsync()
         {
-            return await dbHarmonie.StudentAccounts.ToListAsync();
+            return await _dbHarmonie.StudentAccounts.Include(sa => sa.Student).ToListAsync();
         }
 
+        // Tek hesap getir, Student bilgisi dahil
         public async Task<StudentAccount?> GetByIdAsync(int id)
         {
-            return await dbHarmonie.StudentAccounts.FindAsync(id);
+            return await _dbHarmonie
+                .StudentAccounts.Include(sa => sa.Student)
+                .FirstOrDefaultAsync(sa => sa.StudentAccountId == id);
         }
 
-        public async Task AddAsync(StudentAccount account)
+        // Yeni hesap ekle
+        public async Task<StudentAccount> AddAsync(StudentAccount account)
         {
-            dbHarmonie.StudentAccounts.Add(account);
-            await dbHarmonie.SaveChangesAsync();
+            _dbHarmonie.StudentAccounts.Add(account);
+            await _dbHarmonie.SaveChangesAsync();
+
+            // Student navigation property yükle
+            await _dbHarmonie.Entry(account).Reference(sa => sa.Student).LoadAsync();
+
+            return account;
         }
 
-        public async Task UpdateAsync(StudentAccount account)
+        // Hesap güncelle
+        public async Task<StudentAccount> UpdateAsync(StudentAccount account)
         {
-            dbHarmonie.StudentAccounts.Add(account);
-            await dbHarmonie.SaveChangesAsync();
+            _dbHarmonie.StudentAccounts.Update(account);
+            await _dbHarmonie.SaveChangesAsync();
+            return account;
         }
 
-        public async Task DeleteAsync(int id)
+        // Hesap sil
+        public async Task<bool> DeleteAsync(int id)
         {
-            var account = await dbHarmonie.StudentAccounts.FindAsync(id);
-            if (account != null)
-            {
-                dbHarmonie.StudentAccounts.Remove(account);
-                await dbHarmonie.SaveChangesAsync();
-            }
+            var account = await _dbHarmonie.StudentAccounts.FindAsync(id);
+            if (account == null)
+                return false;
+
+            _dbHarmonie.StudentAccounts.Remove(account);
+            await _dbHarmonie.SaveChangesAsync();
+            return true;
         }
     }
 }

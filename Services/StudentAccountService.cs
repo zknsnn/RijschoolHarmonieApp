@@ -1,6 +1,6 @@
-using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+using AutoMapper;
+using RijschoolHarmonieApp.DTOs;
+using RijschoolHarmonieApp.DTOs.StudentAccount;
 using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Repositories;
 
@@ -8,49 +8,60 @@ namespace RijschoolHarmonieApp.Services
 {
     public class StudentAccountService : IStudentAccountService
     {
-        private readonly IStudentAccountRepository studentAccountRepository;
+        private readonly IStudentAccountRepository _repo;
+        private readonly IMapper _mapper;
 
-        public StudentAccountService(IStudentAccountRepository _studentAccountRepo)
+        public StudentAccountService(IStudentAccountRepository repo, IMapper mapper)
         {
-            studentAccountRepository = _studentAccountRepo;
+            _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task<List<StudentAccount>> GetAllAsync()
+        public async Task<List<StudentAccountResponseDto>> GetAllAsync()
         {
-            return await studentAccountRepository.GetAllAsync();
+            var entities = await _repo.GetAllAsync();
+            return _mapper.Map<List<StudentAccountResponseDto>>(entities);
         }
 
-        public async Task<StudentAccount?> GetByIdAsync(int id)
+        public async Task<StudentAccountResponseDto?> GetByIdAsync(int id)
         {
-            return await studentAccountRepository.GetByIdAsync(id);
+            var entity = await _repo.GetByIdAsync(id);
+            if (entity == null)
+                return null;
+
+            return _mapper.Map<StudentAccountResponseDto>(entity);
         }
 
-        public async Task AddAsync(StudentAccount account)
-        {
-            await studentAccountRepository.AddAsync(account);
+        public async Task<StudentAccountResponseDto> AddAsync(CreateStudentAccountDto dto)
+        {   
+            // check student accounts
+            var allAccounts = await _repo.GetAllAsync();
+            if (allAccounts.Any(a => a.StudentId == dto.StudentId))
+            {
+                throw new ArgumentException("An account for this student already exists.");
+            }
+
+            var entity = _mapper.Map<StudentAccount>(dto);
+            entity = await _repo.AddAsync(entity);
+
+            return _mapper.Map<StudentAccountResponseDto>(entity);
         }
 
-        public async Task UpdateAsync(StudentAccount account)
+        public async Task<StudentAccountResponseDto?> UpdateAsync(UpdateStudentAccountDto dto)
         {
-            var existingAccount = await studentAccountRepository.GetByIdAsync(account.StudentAccountId);
+            var entity = await _repo.GetByIdAsync(dto.StudentAccountId);
+            if (entity == null)
+                return null;
 
-            if (existingAccount == null)
-                throw new KeyNotFoundException("Student account not found");
+            _mapper.Map(dto, entity); // null olmayan alanlar güncellenecek
+            entity = await _repo.UpdateAsync(entity);
 
-            existingAccount.StudentId = account.StudentId;
-            existingAccount.TotalCredit = account.TotalCredit;
-            existingAccount.TotalDebit = account.TotalDebit;
-
-            await studentAccountRepository.UpdateAsync(existingAccount);
+            return _mapper.Map<StudentAccountResponseDto>(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var existingAccount = await studentAccountRepository.GetByIdAsync(id);
-            if (existingAccount == null)
-                throw new KeyNotFoundException("Student account not found");
-
-            await studentAccountRepository.DeleteAsync(id);
+            return await _repo.DeleteAsync(id);
         }
     }
 }

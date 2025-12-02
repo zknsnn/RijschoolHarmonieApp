@@ -6,8 +6,8 @@ namespace RijschoolHarmonieApp.Repositories
     {
         Task<List<StudentAccount>> GetAllAsync();
         Task<StudentAccount?> GetByIdAsync(int id);
-        Task AddAsync(StudentAccount account);
-        Task UpdateAsync(StudentAccount account);
-        Task DeleteAsync(int id);
+        Task<StudentAccount> AddAsync(StudentAccount account);
+        Task<StudentAccount> UpdateAsync(StudentAccount account);
+        Task<bool> DeleteAsync(int id);
     }
 }

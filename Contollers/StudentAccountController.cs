@@ -1,48 +1,51 @@
-using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using RijschoolHarmonieApp.Models;
+using RijschoolHarmonieApp.DTOs;
+using RijschoolHarmonieApp.DTOs.StudentAccount;
 using RijschoolHarmonieApp.Services;
 
 namespace RijschoolHarmonieApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class StudentAccountController : ControllerBase
+    public class StudentAccountsController : ControllerBase
     {
-        private readonly IStudentAccountService _studentAccount;
+        private readonly IStudentAccountService _studentAccountService;
 
-        public StudentAccountController(IStudentAccountService studentAccountService)
+        public StudentAccountsController(IStudentAccountService studentAccountService)
         {
-            _studentAccount = studentAccountService;
+            _studentAccountService = studentAccountService;
         }
 
+        // GET: api/StudentAccounts
         [HttpGet]
-        public async Task<ActionResult<List<StudentAccount>>> GetAll()
+        public async Task<ActionResult<List<StudentAccountResponseDto>>> GetAll()
         {
-            var accounts = await _studentAccount.GetAllAsync();
+            var accounts = await _studentAccountService.GetAllAsync();
             return Ok(accounts);
         }
 
+        // GET: api/StudentAccounts/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentAccount>> GetById(int id)
+        public async Task<ActionResult<StudentAccountResponseDto>> GetById(int id)
         {
-            var account = await _studentAccount.GetByIdAsync(id);
+            var account = await _studentAccountService.GetByIdAsync(id);
             if (account == null)
-                return NotFound("Account not found");
+                return NotFound("StudentAccount not found");
+
             return Ok(account);
         }
 
+        // POST: api/StudentAccounts
         [HttpPost]
-        public async Task<ActionResult> Create(StudentAccount account)
+        public async Task<ActionResult> Create(CreateStudentAccountDto dto)
         {
             try
             {
-                await _studentAccount.AddAsync(account);
+                var createdAccount = await _studentAccountService.AddAsync(dto);
                 return CreatedAtAction(
                     nameof(GetById),
-                    new { id = account.StudentAccountId },
-                    account
+                    new { id = createdAccount.StudentAccountId },
+                    createdAccount
                 );
             }
             catch (ArgumentException ex)
@@ -51,35 +54,36 @@ namespace RijschoolHarmonieApp.Controllers
             }
         }
 
+        // PUT: api/StudentAccounts/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, StudentAccount account)
+        public async Task<ActionResult> Update(int id, UpdateStudentAccountDto dto)
         {
-            if (id != account.StudentAccountId)
+            if (id != dto.StudentAccountId)
                 return BadRequest("ID mismatch");
 
             try
             {
-                await _studentAccount.UpdateAsync(account);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
+                var updated = await _studentAccountService.UpdateAsync(dto);
+                if (updated == null)
+                    return NotFound("StudentAccount not found");
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            try
-            {
-                await _studentAccount.DeleteAsync(id);
                 return NoContent();
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        // DELETE: api/StudentAccounts/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var deleted = await _studentAccountService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound("StudentAccount not found");
+
+            return NoContent();
         }
     }
 }
