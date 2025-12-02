@@ -1,6 +1,5 @@
-using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+using AutoMapper;
+using RijschoolHarmonieApp.DTOs.User;
 using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Repositories;
 
@@ -9,52 +8,47 @@ namespace RijschoolHarmonieApp.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<UserResponseDto>> GetAllAsync()
         {
-            return await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllAsync();
+            return _mapper.Map<List<UserResponseDto>>(users);
         }
 
-        public async Task<User?> GetByIdAsync(int id)
+        public async Task<UserResponseDto?> GetByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            return user == null ? null : _mapper.Map<UserResponseDto>(user);
         }
 
-        public async Task AddAsync(User user)
+        public async Task<UserResponseDto> AddAsync(CreateUserDto dto)
         {
-            if (string.IsNullOrWhiteSpace(user.Email))
-                throw new ArgumentException("Email cannot be empty");
-
+            var user = _mapper.Map<User>(dto);
             await _userRepository.AddAsync(user);
+            return _mapper.Map<UserResponseDto>(user);
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(int id, UpdateUserDto dto)
         {
-            var existingUser = await _userRepository.GetByIdAsync(user.UserId);
+            var existingUser = await _userRepository.GetByIdAsync(id);
+
             if (existingUser == null)
                 throw new KeyNotFoundException("User not found");
 
-            existingUser.FirstName = user.FirstName;
-            existingUser.LastName = user.LastName;
-            existingUser.Email = user.Email;
-            existingUser.PhoneNumber = user.PhoneNumber;
-            existingUser.Role = user.Role;
-            existingUser.InstructorId = user.InstructorId;
+            _mapper.Map(dto, existingUser);
 
             await _userRepository.UpdateAsync(existingUser);
         }
 
         public async Task DeleteAsync(int id)
         {
-            var existingUser = await _userRepository.GetByIdAsync(id);
-            if (existingUser == null)
-                throw new KeyNotFoundException("User not found");
-
             await _userRepository.DeleteAsync(id);
         }
     }

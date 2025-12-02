@@ -1,8 +1,5 @@
-using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RijschoolHarmonieApp.DTOs.User;
-using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Services;
 
 namespace RijschoolHarmonieApp.Controllers
@@ -19,54 +16,35 @@ namespace RijschoolHarmonieApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAll()
+        public async Task<ActionResult<List<UserResponseDto>>> GetAll()
         {
-            var users = await _userService.GetAllAsync();
-            return Ok(users);
+            return Ok(await _userService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(int id)
+        public async Task<ActionResult<UserResponseDto>> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
                 return NotFound("User not found");
+
             return Ok(user);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
-            var user = new User(
-                dto.FirstName,
-                dto.LastName,
-                dto.Email,
-                dto.PhoneNumber,
-                dto.PasswordHash,
-                dto.Role,
-                dto.InstructorId
-            );
+            var createdUser = await _userService.AddAsync(dto);
 
-            try
-            {
-                await _userService.AddAsync(user);
-                return CreatedAtAction(nameof(GetById), new { id = user.UserId }, user);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return CreatedAtAction(nameof(GetById), new { id = createdUser.UserId }, createdUser);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, User user)
+        public async Task<ActionResult> Update(int id, UpdateUserDto dto)
         {
-            if (id != user.UserId)
-                return BadRequest("ID mismatch");
-
             try
             {
-                await _userService.UpdateAsync(user);
+                await _userService.UpdateAsync(id, dto);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -83,9 +61,9 @@ namespace RijschoolHarmonieApp.Controllers
                 await _userService.DeleteAsync(id);
                 return NoContent();
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }
