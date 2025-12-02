@@ -11,6 +11,7 @@ namespace RijschoolHarmonieApp.Data
         public DbSet<User> Users { get; set; }
         public DbSet<InstructorPrice> InstructorPrices { get; set; }
         public DbSet<StudentAccount> StudentAccounts { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,13 @@ namespace RijschoolHarmonieApp.Data
                 .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
 
             modelBuilder.Entity<StudentAccount>().HasIndex(sa => sa.StudentId).IsUnique();
+
+            modelBuilder
+                .Entity<Payment>()
+                .HasOne(p => p.Student)
+                .WithMany()
+                .HasForeignKey(p => p.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

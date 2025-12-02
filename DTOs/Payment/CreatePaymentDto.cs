@@ -1,15 +1,13 @@
-namespace RijschoolHarmonieApp.Models
+using RijschoolHarmonieApp.Models;
+
+namespace RijschoolHarmonieApp.DTOs.Payment
 {
-    public class Payment
+    public class CreatePaymentDto
     {
         public int PaymentId { get; set; }
 
         public int StudentId { get; set; }
-        public User Student { get; set; } = null!;
-
         public decimal Amount { get; set; }
-
-        public DateTime Date { get; set; } = DateTime.UtcNow;
 
         public string? Description { get; set; }
     }
