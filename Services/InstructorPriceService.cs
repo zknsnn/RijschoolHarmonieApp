@@ -1,6 +1,9 @@
 using System.Security.Cryptography;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using RijschoolHarmonieApp.DTOs.InstructorPrice;
+using RijschoolHarmonieApp.DTOs.User;
 using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Repositories;
 
@@ -10,48 +13,71 @@ namespace RijschoolHarmonieApp.Services
     {
         private readonly IInstructorPriceRepository instructorPriceRepository;
 
-        public InstructorPriceService(IInstructorPriceRepository instructorPriceRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public InstructorPriceService(
+            IInstructorPriceRepository instructorPriceRepository,
+            IMapper mapper,
+            IUserRepository userRepository
+        )
         {
             this.instructorPriceRepository = instructorPriceRepository;
+            this._mapper = mapper;
+            this._userRepository = userRepository;
         }
 
-        public async Task<List<InstructorPrice>> GetAllAsync()
+        public async Task<List<InstructorPriceResponseDto>> GetAllAsync()
         {
-            return await instructorPriceRepository.GetAllAsync();
+            var instructorPrices = await instructorPriceRepository.GetAllAsync();
+            return _mapper.Map<List<InstructorPriceResponseDto>>(instructorPrices);
         }
 
-        public async Task<InstructorPrice?> GetByIdAsync(int id)
+        public async Task<InstructorPriceResponseDto?> GetByIdAsync(int id)
         {
-            return await instructorPriceRepository.GetByIdAsync(id);
+            var instructorPrice = await instructorPriceRepository.GetByIdAsync(id);
+            return instructorPrice == null
+                ? null
+                : _mapper.Map<InstructorPriceResponseDto>(instructorPrice);
         }
 
-        public async Task AddAsync(InstructorPrice price)
+        public async Task<InstructorPriceResponseDto> AddAsync(CreateInstructorPriceDto dto)
         {
-            await instructorPriceRepository.AddAsync(price);
+            // Check if the user exists
+            var user = await _userRepository.GetByIdAsync(dto.InstructorId);
+            if (user == null || user.Role != UserRole.Instructor)
+                throw new ArgumentException("Invalid instructor ID");
+
+            var instructorPrice = _mapper.Map<InstructorPrice>(dto);
+            await instructorPriceRepository.AddAsync(instructorPrice);
+            return _mapper.Map<InstructorPriceResponseDto>(instructorPrice);
         }
 
-        public async Task UpdateAsync(InstructorPrice price)
+        public async Task<InstructorPriceResponseDto?> UpdateAsync(UpdateInstructorPriceDto dto)
         {
-            var existingPrice = await instructorPriceRepository.GetByIdAsync(price.InstructorId);
+            var existing = await instructorPriceRepository.GetByIdAsync(dto.InstructorPriceId);
+            if (existing == null)
+                return null;
 
-            if (existingPrice == null)
-                throw new KeyNotFoundException("Price not found");
+            var user = await _userRepository.GetByIdAsync(dto.InstructorId);
+            if (user == null || user.Role != UserRole.Instructor)
+                throw new ArgumentException("Invalid instructor ID");
 
-            existingPrice.InstructorId = price.InstructorId;
-            existingPrice.LessonPrice = price.LessonPrice;
-            existingPrice.ExamPrice = price.ExamPrice;
-            existingPrice.LastUpdateDate = price.LastUpdateDate;
+            _mapper.Map(dto, existing);
 
-            await instructorPriceRepository.UpdateAsync(existingPrice);
+            await instructorPriceRepository.UpdateAsync(existing);
+
+            return _mapper.Map<InstructorPriceResponseDto>(existing);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var existingPrice = await instructorPriceRepository.GetByIdAsync(id);
-            if (existingPrice == null)
-                throw new KeyNotFoundException("Price not found");
-
+            var existing = await instructorPriceRepository.GetByIdAsync(id);
+            if (existing == null)
+                return false;
             await instructorPriceRepository.DeleteAsync(id);
+
+            return true;
         }
     }
 }
