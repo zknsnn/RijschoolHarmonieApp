@@ -1,9 +1,6 @@
-using System.Security.Cryptography;
+
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using RijschoolHarmonieApp.DTOs.InstructorPrice;
-using RijschoolHarmonieApp.DTOs.User;
 using RijschoolHarmonieApp.Models;
 using RijschoolHarmonieApp.Repositories;
 
@@ -12,7 +9,6 @@ namespace RijschoolHarmonieApp.Services
     public class InstructorPriceService : IInstructorPriceService
     {
         private readonly IInstructorPriceRepository instructorPriceRepository;
-
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 

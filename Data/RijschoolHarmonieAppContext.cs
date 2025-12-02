@@ -27,6 +27,8 @@ namespace RijschoolHarmonieApp.Data
                 .Property(sa => sa.Balance)
                 .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
 
+            modelBuilder.Entity<StudentAccount>().HasIndex(sa => sa.StudentId).IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
     }
