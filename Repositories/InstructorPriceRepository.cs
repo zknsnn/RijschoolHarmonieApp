@@ -31,7 +31,7 @@ namespace RijschoolHarmonieApp.Repositories
 
         public async Task UpdateAsync(InstructorPrice price)
         {
-            dbHarmonie.InstructorPrices.Add(price);
+            dbHarmonie.InstructorPrices.Update(price);
             await dbHarmonie.SaveChangesAsync();
         }
 

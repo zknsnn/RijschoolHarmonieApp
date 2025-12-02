@@ -1,11 +1,12 @@
 namespace RijschoolHarmonieApp.DTOs.InstructorPrice
 {
-    // DTO for updating an existing InstructorPrice
-    public class UpdateInstructorPriceDto
+    // DTO returned in API responses
+    public class InstructorPriceResponseDto
     {
-        public int InstructorPriceId { get; set; } // PK of the record to update
+        public int InstructorPriceId { get; set; }
         public int InstructorId { get; set; }
         public decimal LessonPrice { get; set; }
         public decimal ExamPrice { get; set; }
+        public DateTime LastUpdateDate { get; set; }
     }
 }

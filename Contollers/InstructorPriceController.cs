@@ -1,7 +1,6 @@
-using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using RijschoolHarmonieApp.Models;
+using RijschoolHarmonieApp.DTOs.InstructorPrice;
+using RijschoolHarmonieApp.DTOs.User;
 using RijschoolHarmonieApp.Services;
 
 namespace RijschoolHarmonieApp.Controllers
@@ -12,34 +11,39 @@ namespace RijschoolHarmonieApp.Controllers
     {
         private readonly IInstructorPriceService _instructorPriceService;
 
-        public InstructorPriceController(IInstructorPriceService instructorPrice)
+        public InstructorPriceController(IInstructorPriceService instructorPriceService)
         {
-            _instructorPriceService = instructorPrice;
+            _instructorPriceService = instructorPriceService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<InstructorPrice>>> GetAll()
+        public async Task<ActionResult<List<InstructorPriceResponseDto>>> GetAll()
         {
-            var users = await _instructorPriceService.GetAllAsync();
-            return Ok(users);
+            var prices = await _instructorPriceService.GetAllAsync();
+            return Ok(prices);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InstructorPrice>> GetById(int id)
+        public async Task<ActionResult<InstructorPriceResponseDto>> GetById(int id)
         {
-            var user = await _instructorPriceService.GetByIdAsync(id);
-            if (user == null)
-                return NotFound("Price not found");
-            return Ok(user);
+            var price = await _instructorPriceService.GetByIdAsync(id);
+            if (price == null)
+                return NotFound("InstructorPrice not found");
+
+            return Ok(price);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(InstructorPrice price)
+        public async Task<ActionResult> Create(CreateInstructorPriceDto dto)
         {
             try
             {
-                await _instructorPriceService.AddAsync(price);
-                return CreatedAtAction(nameof(GetById), new { id = price.InstructorId }, price);
+                var createdPrice = await _instructorPriceService.AddAsync(dto);
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = createdPrice.InstructorPriceId },
+                    createdPrice
+                );
             }
             catch (ArgumentException ex)
             {
@@ -48,34 +52,34 @@ namespace RijschoolHarmonieApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, InstructorPrice price)
+        public async Task<ActionResult> Update(int id, UpdateInstructorPriceDto dto)
         {
-            if (id != price.InstructorId)
+            if (id != dto.InstructorPriceId)
                 return BadRequest("ID mismatch");
 
             try
             {
-                await _instructorPriceService.UpdateAsync(price);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
+                var updated = await _instructorPriceService.UpdateAsync(dto);
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            try
-            {
-                await _instructorPriceService.DeleteAsync(id);
+                if (updated == null)
+                    return NotFound("InstructorPrice not found");
+
                 return NoContent();
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var deleted = await _instructorPriceService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound("InstructorPrice not found");
+
+            return NoContent();
         }
     }
 }
