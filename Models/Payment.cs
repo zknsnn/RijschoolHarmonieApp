@@ -4,8 +4,8 @@ namespace RijschoolHarmonieApp.Models
     {
         public int PaymentId { get; set; }
 
-        public int StudentId { get; set; }
-        public User Student { get; set; } = null!;
+        public int StudentAccountId { get; set; }
+        public StudentAccount StudentAccount { get; set; } = null!;
 
         public decimal Amount { get; set; }
 

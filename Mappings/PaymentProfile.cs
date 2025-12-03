@@ -15,11 +15,11 @@ namespace RijschoolHarmonieApp.Mappings
             CreateMap<Payment, PaymentResponseDto>()
                 .ForMember(
                     dest => dest.StudentName,
-                    opt => opt.MapFrom(src => src.Student.FirstName)
+                    opt => opt.MapFrom(src => src.StudentAccount.Student.FirstName)
                 )
                 .ForMember(
                     dest => dest.StudentLastName,
-                    opt => opt.MapFrom(src => src.Student.LastName)
+                    opt => opt.MapFrom(src => src.StudentAccount.Student.LastName)
                 );
         }
     }

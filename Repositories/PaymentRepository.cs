@@ -15,13 +15,17 @@ namespace RijschoolHarmonieApp.Repositories
 
         public async Task<List<Payment>> GetAllAsync()
         {
-            return await dbHarmonie.Payments.Include(p => p.Student).ToListAsync();
+            return await dbHarmonie
+                .Payments.Include(p => p.StudentAccount)
+                    .ThenInclude(sa => sa.Student)
+                .ToListAsync();
         }
 
         public async Task<Payment?> GetByIdAsync(int id)
         {
             return await dbHarmonie
-                .Payments.Include(p => p.Student)
+                .Payments.Include(p => p.StudentAccount)
+                    .ThenInclude(sa => sa.Student)
                 .FirstOrDefaultAsync(p => p.PaymentId == id);
         }
 
@@ -34,10 +38,10 @@ namespace RijschoolHarmonieApp.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var user = await dbHarmonie.Users.FindAsync(id);
-            if (user != null)
+            var payment = await dbHarmonie.Payments.FindAsync(id);
+            if (payment != null)
             {
-                dbHarmonie.Users.Remove(user);
+                dbHarmonie.Payments.Remove(payment);
                 await dbHarmonie.SaveChangesAsync();
             }
         }

@@ -27,6 +27,13 @@ namespace RijschoolHarmonieApp.Repositories
                 .FirstOrDefaultAsync(sa => sa.StudentAccountId == id);
         }
 
+        public async Task<StudentAccount?> GetByStudentIdAsync(int studentId)
+        {
+            return await _dbHarmonie
+                .StudentAccounts.Include(sa => sa.Student)
+                .SingleOrDefaultAsync(sa => sa.StudentId == studentId);
+        }
+
         // Yeni hesap ekle
         public async Task<StudentAccount> AddAsync(StudentAccount account)
         {

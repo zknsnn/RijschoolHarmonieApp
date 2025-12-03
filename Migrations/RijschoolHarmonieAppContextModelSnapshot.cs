@@ -66,17 +66,12 @@ namespace RijschoolHarmonieApp.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StudentAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentAccountId")
                         .HasColumnType("int");
 
                     b.HasKey("PaymentId");
 
                     b.HasIndex("StudentAccountId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Payments");
                 });
@@ -92,7 +87,7 @@ namespace RijschoolHarmonieApp.Migrations
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("decimal(18,2)")
-                        .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
+                        .HasComputedColumnSql("[TotalDebit] - [TotalCredit]");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -163,17 +158,13 @@ namespace RijschoolHarmonieApp.Migrations
 
             modelBuilder.Entity("RijschoolHarmonieApp.Models.Payment", b =>
                 {
-                    b.HasOne("RijschoolHarmonieApp.Models.StudentAccount", null)
+                    b.HasOne("RijschoolHarmonieApp.Models.StudentAccount", "StudentAccount")
                         .WithMany("Payments")
-                        .HasForeignKey("StudentAccountId");
-
-                    b.HasOne("RijschoolHarmonieApp.Models.User", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("StudentAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("StudentAccount");
                 });
 
             modelBuilder.Entity("RijschoolHarmonieApp.Models.StudentAccount", b =>

@@ -2,7 +2,7 @@ public class PaymentResponseDto
 {
     public int PaymentId { get; set; }
 
-    public int StudentId { get; set; }
+    public int StudentAccountId { get; set; }
     public string StudentName { get; set; } = null!; 
     public string StudentLastName { get; set; } = null!; 
 

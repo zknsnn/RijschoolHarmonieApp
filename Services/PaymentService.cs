@@ -42,27 +42,29 @@ namespace RijschoolHarmonieApp.Services
         public async Task<PaymentResponseDto> AddPaymentAsync(CreatePaymentDto dto)
         {
             // Check student
-            var studentAccount = await _studentAccountRepository.GetByIdAsync(dto.StudentId);
+            var studentAccount = await _studentAccountRepository.GetByIdAsync(dto.StudentAccountId);
             if (studentAccount == null)
                 throw new ArgumentException("Student account does not exist.");
 
             // Check balance
-            var balance = studentAccount.TotalCredit - studentAccount.TotalDebit;
-            if (dto.Amount > balance)
-                throw new ArgumentException("Payment exceeds the student's debt.");
+
+            if (dto.Amount > studentAccount.Balance)
+                throw new ArgumentException(
+                    $"Payment exceeds the student's debt.balance {studentAccount.Balance}"
+                );
 
             // DTO -> Entity
             var paymentEntity = _mapper.Map<Payment>(dto);
 
-            //add repo
+            // Repo'ya ekle
             paymentEntity = await _paymentRepository.AddAsync(paymentEntity);
 
-            // update student account
+            // StudentAccount güncelle
             studentAccount.TotalCredit += paymentEntity.Amount;
             await _studentAccountRepository.UpdateAsync(studentAccount);
 
-            var response = _mapper.Map<PaymentResponseDto>(paymentEntity);
-            return response;
+            // Response DTO
+            return _mapper.Map<PaymentResponseDto>(paymentEntity);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -71,8 +73,10 @@ namespace RijschoolHarmonieApp.Services
             if (payment == null)
                 return false;
 
-            // StudentAccount 
-            var studentAccount = await _studentAccountRepository.GetByIdAsync(payment.StudentId);
+            // StudentAccount
+            var studentAccount = await _studentAccountRepository.GetByIdAsync(
+                payment.StudentAccountId
+            );
             if (studentAccount != null)
             {
                 studentAccount.TotalCredit -= payment.Amount;
