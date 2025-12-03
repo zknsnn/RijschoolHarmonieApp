@@ -57,14 +57,23 @@ namespace RijschoolHarmonieApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
-                    b.Property<int?>("StudentAccountId")
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentAccountId")
                         .HasColumnType("int");
 
                     b.HasKey("PaymentId");
 
                     b.HasIndex("StudentAccountId");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("RijschoolHarmonieApp.Models.StudentAccount", b =>
@@ -78,7 +87,7 @@ namespace RijschoolHarmonieApp.Migrations
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("decimal(18,2)")
-                        .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
+                        .HasComputedColumnSql("[TotalDebit] - [TotalCredit]");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -91,7 +100,8 @@ namespace RijschoolHarmonieApp.Migrations
 
                     b.HasKey("StudentAccountId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentId")
+                        .IsUnique();
 
                     b.ToTable("StudentAccounts");
                 });
@@ -148,9 +158,13 @@ namespace RijschoolHarmonieApp.Migrations
 
             modelBuilder.Entity("RijschoolHarmonieApp.Models.Payment", b =>
                 {
-                    b.HasOne("RijschoolHarmonieApp.Models.StudentAccount", null)
+                    b.HasOne("RijschoolHarmonieApp.Models.StudentAccount", "StudentAccount")
                         .WithMany("Payments")
-                        .HasForeignKey("StudentAccountId");
+                        .HasForeignKey("StudentAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentAccount");
                 });
 
             modelBuilder.Entity("RijschoolHarmonieApp.Models.StudentAccount", b =>

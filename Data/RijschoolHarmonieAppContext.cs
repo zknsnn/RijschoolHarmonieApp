@@ -5,12 +5,15 @@ namespace RijschoolHarmonieApp.Data
 {
     public class RijschoolHarmonieAppContext : DbContext
     {
+        public RijschoolHarmonieAppContext() { }
+
         public RijschoolHarmonieAppContext(DbContextOptions<RijschoolHarmonieAppContext> options)
             : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<InstructorPrice> InstructorPrices { get; set; }
         public DbSet<StudentAccount> StudentAccounts { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,10 +28,16 @@ namespace RijschoolHarmonieApp.Data
             modelBuilder
                 .Entity<StudentAccount>()
                 .Property(sa => sa.Balance)
-                .HasComputedColumnSql("[TotalCredit] - [TotalDebit]");
+                .HasComputedColumnSql("[TotalDebit] - [TotalCredit]");
 
             modelBuilder.Entity<StudentAccount>().HasIndex(sa => sa.StudentId).IsUnique();
 
+            modelBuilder
+                .Entity<Payment>()
+                .HasOne(p => p.StudentAccount)
+                .WithMany(sa => sa.Payments)
+                .HasForeignKey(p => p.StudentAccountId)
+                .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
     }
