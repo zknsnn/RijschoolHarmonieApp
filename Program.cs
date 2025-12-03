@@ -3,6 +3,7 @@ using RijschoolHarmonieApp.Data;
 using RijschoolHarmonieApp.Repositories;
 using RijschoolHarmonieApp.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
@@ -18,8 +19,6 @@ builder
             new System.Text.Json.Serialization.JsonStringEnumConverter()
         );
     });
-
-    
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -46,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

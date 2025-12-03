@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+    <script src="javascript/login.js" defer></script>
+</head>
+<body>
+<div class="split-screen">
+    <!-- left panel- -->
+    <div class="left-panel">
+        <div class="login-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <h2>Sign in</h2>
+            <form id="form" novalidate>
+                <input id="email" type="email" placeholder="Email address" required>
+                <input id="password" type="password" placeholder="Password" required>
+                <button id="submitBtn" type="submit">Sign in</button>
+            </form>
+            <p id="msg" class="msg" role="status" aria-live="polite"></p>
+        </div>
+    </div>
+
+
+    <div class="right-panel">
+        <img src="images/2.jpg" alt="Background Image" class="background-image">
+    </div>
+</div>
+</body>
+</html>
