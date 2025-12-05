@@ -1,13 +1,22 @@
 using RijschoolHarmonieApp.Models;
 
-public class AppointmentResponseDto
+namespace RijschoolHarmonieApp.DTOs.Appointment
 {
-    public int AppointmentId { get; set; }
-    public int InstructorId { get; set; }
-    public int StudentId { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
-    public AppointmentType Type { get; set; }
-    public decimal Price { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public class AppointmentResponseDto
+    {
+        public int AppointmentId { get; set; }
+
+        public int InstructorId { get; set; }
+        public string InstructorName { get; set; }
+
+        public int StudentId { get; set; }
+        public string StudentName { get; set; }
+
+        public AppointmentType Type { get; set; }
+
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public decimal Price { get; set; }
+    }
 }

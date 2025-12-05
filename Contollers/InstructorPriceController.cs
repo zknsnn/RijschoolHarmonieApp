@@ -33,6 +33,16 @@ namespace RijschoolHarmonieApp.Controllers
             return Ok(price);
         }
 
+        [HttpGet("instructor/{instructorId}")]
+        public async Task<ActionResult<InstructorPriceResponseDto>> GetByInstructorId(int instructorId)
+        {
+            var price = await _instructorPriceService.GetByInstructorAsync(instructorId);
+            if (price == null)
+                return NotFound("InstructorPrice not found");
+
+            return Ok(price);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(CreateInstructorPriceDto dto)
         {

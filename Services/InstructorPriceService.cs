@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using RijschoolHarmonieApp.DTOs.InstructorPrice;
 using RijschoolHarmonieApp.Models;
@@ -32,6 +31,16 @@ namespace RijschoolHarmonieApp.Services
         public async Task<InstructorPriceResponseDto?> GetByIdAsync(int id)
         {
             var instructorPrice = await instructorPriceRepository.GetByIdAsync(id);
+            return instructorPrice == null
+                ? null
+                : _mapper.Map<InstructorPriceResponseDto>(instructorPrice);
+        }
+
+        public async Task<InstructorPriceResponseDto?> GetByInstructorAsync(int instructorId)
+        {
+            var instructorPrice = await instructorPriceRepository.GetByInstructorAsync(
+                instructorId
+            );
             return instructorPrice == null
                 ? null
                 : _mapper.Map<InstructorPriceResponseDto>(instructorPrice);

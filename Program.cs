@@ -25,6 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IInstructorPriceRepository, InstructorPriceRepository>();
 builder.Services.AddScoped<IInstructorPriceService, InstructorPriceService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();

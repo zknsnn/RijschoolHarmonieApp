@@ -8,6 +8,8 @@ namespace RijschoolHarmonieApp.Services
     {
         Task<List<InstructorPriceResponseDto>> GetAllAsync();
         Task<InstructorPriceResponseDto?> GetByIdAsync(int id);
+
+        Task<InstructorPriceResponseDto?> GetByInstructorAsync(int instructorId);
         Task<InstructorPriceResponseDto> AddAsync(CreateInstructorPriceDto dto);
         Task<InstructorPriceResponseDto?> UpdateAsync(UpdateInstructorPriceDto dto);
         Task<bool> DeleteAsync(int id);
