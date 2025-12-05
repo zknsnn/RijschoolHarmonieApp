@@ -11,7 +11,7 @@ namespace RijschoolHarmonieApp.Mappings
             // Create DTO → Entity
             CreateMap<CreateUserDto, User>();
 
-            // Update DTO → Entity (sadece null olmayanlar güncellenir)
+            // Update DTO → Entity (change if not null)
             CreateMap<UpdateUserDto, User>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
