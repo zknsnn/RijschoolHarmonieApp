@@ -14,6 +14,7 @@ namespace RijschoolHarmonieApp.Data
         public DbSet<InstructorPrice> InstructorPrices { get; set; }
         public DbSet<StudentAccount> StudentAccounts { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +39,22 @@ namespace RijschoolHarmonieApp.Data
                 .WithMany(sa => sa.Payments)
                 .HasForeignKey(p => p.StudentAccountId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .Entity<Appointment>()
+                .HasOne(a => a.Instructor)
+                .WithMany(u => u.InstructorAppointments) 
+                .HasForeignKey(a => a.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Appointment - Student (N:1)
+            modelBuilder
+                .Entity<Appointment>()
+                .HasOne(a => a.Student)
+                .WithMany(u => u.StudentAppointments) 
+                .HasForeignKey(a => a.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
         }
     }

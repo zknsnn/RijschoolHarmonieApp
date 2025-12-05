@@ -15,6 +15,9 @@ namespace RijschoolHarmonieApp.Models
 
         [JsonIgnore]
         public ICollection<InstructorPrice> InstructorPrices { get; set; }
+        public ICollection<Appointment> InstructorAppointments { get; set; } =
+            new List<Appointment>();
+        public ICollection<Appointment> StudentAppointments { get; set; } = new List<Appointment>();
 
         public User(
             string firstName,
