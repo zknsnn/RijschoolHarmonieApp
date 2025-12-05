@@ -23,6 +23,13 @@ namespace RijschoolHarmonieApp.Repositories
             return await dbHarmonie.InstructorPrices.FindAsync(id);
         }
 
+        public async Task<InstructorPrice?> GetByInstructorAsync(int instructorId)
+        {
+            return await dbHarmonie.InstructorPrices.FirstOrDefaultAsync(p =>
+                p.InstructorId == instructorId
+            );
+        }
+
         public async Task AddAsync(InstructorPrice price)
         {
             dbHarmonie.InstructorPrices.Add(price);

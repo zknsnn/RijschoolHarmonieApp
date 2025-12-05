@@ -1,6 +1,6 @@
 using RijschoolHarmonieApp.Models;
 
-namespace RijschoolHarmonieApp.DTOs.InstructorPrice
+namespace RijschoolHarmonieApp.DTOs.Appointment
 {
     public class CreateAppointmentDto
     {
