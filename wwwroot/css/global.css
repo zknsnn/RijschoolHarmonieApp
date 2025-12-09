@@ -1,0 +1,898 @@
+:root {
+    --primary-blue: #0052cc; /* Profesyonel mavi */
+    --primary-blue-highlight: #3385ff;
+    --light-blue: #eaf4ff;
+    --medium-blue: #4d90fe;
+    --deletebtn-red: #d32f2f;
+    --red-highlight: #f18b83;
+    --status-green: #28a745;
+    --status-yellow: #f3bd1c;
+    --status-grey: #868686;
+    --dark-text: #333333;
+    --light-grey: #f9f9f9;
+    --shadow-light: rgba(0,0,0,0.08);
+    --shadow-medium: rgba(0,0,0,0.15);
+}
+
+/* Layout --------------------------------------------------------------------------------------- */
+html {
+    font-size: 17px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--dark-text);
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+h2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--light-grey);
+    overflow: hidden;
+}
+
+/* Sidebar -------------------------------------------------------------------------------------- */
+.sidebar {
+    height: 100vh;
+    width: 220px;
+    background-color: var(--light-blue);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    display: flex;
+    position: fixed;
+    top: 0;
+    flex-direction: column;
+}
+
+.sidebar .logo img {
+    width: 180px;
+    margin-bottom: 30px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: white;
+    background-color: var(--medium-blue);
+    font-weight: 500;
+    padding: 15px 12px;
+    display: block;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+    background-color: var(--primary-blue);
+}
+
+/* Main content --------------------------------------------------------------------------------- */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    height: 100vh;
+    flex-direction: column;
+    max-width: 70rem;
+    margin-left: 250px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 30px;
+
+}
+
+.header-actions .button {
+    text-decoration: underline;
+    background: none;
+    font-size: .90rem;
+    border: none;
+    cursor: pointer;
+
+}
+
+.header-actions .button:hover {
+    color: var(--primary-blue);
+}
+
+/* Page content */
+.content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    /*max-width: 1024px;*/
+}
+
+/* Content header */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.content-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--dark-text);
+}
+
+.section-header {
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    letter-spacing: 1px;
+    text-align: center !important;
+    position: relative;
+}
+
+.section-header:first-child {
+    border-right: 2px solid var(--light-grey);
+}
+
+.table-container thead tr:nth-child(2) th:nth-child(5) {
+    border-right: 2px solid var(--light-grey);
+}
+
+.button.cancel {
+    background-color: #e6e6e6;
+    color: var(--dark-text);
+    font-weight: 500;
+}
+
+.button.cancel:hover {
+    background-color: #d4d4d4;
+}
+
+/* new button styling */
+#new {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+#new:hover {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+/* Form styling --------------------------------------------------------------------------------- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--dark-text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 90%;
+    /*max-width: 750px;*/
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+.form-group select {
+    width: auto;
+    margin: 0 auto;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 6px rgba(0, 102, 255, 0.25);
+}
+
+.form-actions {
+    display: flex;
+    margin-top: 30px;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+.form-actions .button.delete {
+    background-color: var(--red-highlight);
+}
+
+.form-actions .button.delete:hover {
+    background-color: var(--deletebtn-red);
+}
+
+.form-actions .buttons-right {
+    margin-left: auto;
+}
+
+.form-actions .button.save {
+    width: 90px;
+    background-color: var(--primary-blue);
+}
+
+.form-actions .button.save:hover {
+    background-color: var(--primary-blue-highlight);
+}
+
+.content-header a,
+.content-header button,
+.form-actions .button {
+    padding: 12px 20px;
+    margin-bottom: 5px;
+    background-color: var(--medium-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+}
+
+textarea {
+    resize: none;
+}
+
+.content-header button,
+.content-header a {
+    background-color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.content-header a:hover,
+.content-header button:hover {
+    background-color: var(--primary-blue-highlight);
+}
+
+/* Table Styling -------------------------------------------------------------------------------- */
+
+/* Table Caption (header) */
+.table-container caption {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+    color: var(--dark-text);
+    text-align: center;
+}
+
+/* Table Wrapper */
+.table-container {
+    margin-top: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+/* Header */
+.table-container thead {
+    background-color: var(--medium-blue);
+}
+
+.table-container th {
+    text-align: left;
+    padding: 18px 16px;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: white;
+}
+
+/* Body rows */
+.table-container td {
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--light-grey);
+    color: var(--dark-text);
+}
+
+/* Zebra effect */
+.table-container tbody tr:nth-child(even) {
+    background-color: var(--light-blue);
+}
+
+/* Hover effect */
+.table-container tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+/* Buttons inside table */
+.table td:last-child {
+    white-space: nowrap; /*  keeps buttons on one line */
+}
+
+/* keep subtheme name on one line in questions table */
+td.subtheme {
+    white-space: nowrap;
+}
+
+/* Small buttons inside table */
+.button-group {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 4px;
+}
+
+.view-btn,
+.btn-edit,
+.edit-btn,
+.button.small {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 50px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+    color: white;
+    background-color: var(--medium-blue);
+    white-space: nowrap;
+}
+
+.view-btn:hover,
+.btn-edit:hover,
+.edit-btn:hover,
+.button.small:hover {
+    background-color: var(--primary-blue);
+}
+
+.button.save:hover {
+    background-color: var(--primary-blue-highlight);
+}
+
+.button.small:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Disabled buttons */
+.button.small.status-disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Status based coloring for buttons */
+.button.small.preparation {
+    background-color: var(--medium-blue);
+    color: white;
+}
+
+.button.small.in-progress {
+    background-color: var(--status-yellow);
+    color: #525252;
+}
+
+.button.small.completed {
+    background-color: var(--status-green);
+    color: white;
+}
+
+.button.small.inactive {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.button.small.delete {
+    background-color: var(--deletebtn-red);
+}
+
+.button.small.add {
+    background-color: var(--status-green);
+}
+
+
+/* Status colors for cell */
+.status-preparation {
+    background-color: var(--medium-blue);
+    color: white;
+}
+
+.status-new {
+    background-color: var(--medium-blue);
+    color: white;
+}
+
+.status-in-progress {
+    background-color: var(--status-yellow); /* yellow */
+    color: #333;
+}
+
+.status-completed {
+    background-color: var(--status-green); /* green */
+    color: white;
+}
+
+.status-inactive {
+    background-color: var(--status-grey); /* gray */
+    color: white;
+}
+
+/* Completed status row styling */
+.status-row-completed {
+    background-color: #d1d1d1 !important;
+    color: #666 !important;
+    opacity: 0.8;
+}
+
+.status-row-completed:hover {
+    background-color: #c4c4c4 !important;
+}
+
+.status-row-completed td {
+    color: #666 !important;
+}
+
+.status-row-completed .edit-btn {
+    background-color: #7f8c8d !important;
+    color: white !important;
+    cursor: not-allowed;
+}
+
+.status-row-completed .edit-btn:hover {
+    background-color: #6c7b7d !important;
+}
+
+/* Status dropdown stilleri completed row'da */
+.status-row-completed .status-dropdown {
+    background-color: #e0e0e0;
+    border: 1px solid #b0b0b0;
+}
+
+.status-row-completed .status-dropdown option {
+    background-color: white;
+    color: #333;
+}
+
+
+/* styles for toast popup ----------------------------------------------------------------------- */
+.toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #333;
+    color: var(--dark-text);
+    padding: 12px 20px;
+    border-radius: 6px;
+    /*box-shadow: 0 2px 8px var(--dark-text);*/
+    font-family: inherit;
+
+    z-index: 1000;
+    opacity: 0.95;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.toast-info {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.toast-success {
+    background-color: var(--status-green);
+    color: white;
+}
+
+.toast-warning {
+    background-color: var(--status-yellow);
+}
+
+.toast-error {
+    background-color: var(--deletebtn-red);
+    color: white;
+}
+
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.toast-confirm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--status-yellow);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.toast-confirm button {
+    margin: 5px;
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+select {
+    /*A reset of styles, including removing the default dropdown arrow*/
+
+    /*appearance: none;*/
+    /*Additional resets for further consistency background-color: transparent;*/
+    border: none;
+    margin: 0;
+    width: 130px;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    padding: 10px;
+    outline: none;
+    border-radius: 6px;
+    align-items: center;
+}
+
+.select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--dark-text);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    justify-self: end;
+}
+
+/*-------Themes en subthema blokes */
+#afterSaveMessage {
+    display: inline-flex; /* maakt de breedte automatisch passend bij de inhoud */
+    align-items: center;
+    gap: 1rem; /* ruimte tussen tekst en knoppen */
+    padding: 15px 20px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-top: 1.5rem;
+    border: 1px solid #000;
+    border-radius: 8px;
+    color: black;
+    font-weight: 500;
+    background-color: #f9f9f9;
+
+    width: auto;
+    max-width: fit-content;
+
+}
+
+/* Success text */
+#afterSaveMessage #orgSavedMsg {
+    margin-right: 1rem;
+}
+
+/* Button inherits global styles (button.save), maar kleine tweak */
+#afterSaveMessage .button.save {
+    background-color: var(--primary-blue) !important;
+    color: white !important;
+    font-weight: bold;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-width: 130px;
+    text-align: center;
+}
+
+#afterSaveMessage .button.save:hover {
+    background-color: var(--primary-blue-highlight) !important;
+}
+
+
+.theme-block input,
+.theme-block textarea,
+.subtheme-block input,
+.subtheme-block textarea,
+.subtheme-block select {
+    display: block;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.subtheme-block select {
+    margin-bottom: 0.5rem;
+}
+
+.subthemes-list {
+    padding-left: 2rem;
+    border-left: 2px solid #ddd;
+    margin-top: 0.5rem;
+}
+
+.subtheme-block {
+    background-color: #f9f9f9;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+/* Add Theme button */
+#Addthemes:hover,
+.button.add:hover {
+    background-color: #3cb371; /* Mooie groene hover */
+    color: white;
+}
+
+/* Add Subtheme button */
+.subtheme-block .button.add:hover {
+    background-color: #2e8b57; /* Donkergroen bij hover */
+    color: white;
+}
+
+/* Delete Theme button */
+.theme-block .button.delete:hover {
+    background-color: #d32f2f; /* Donkerder rood */
+    color: white;
+}
+
+/* Delete Subtheme button */
+.subtheme-block .button.delete:hover {
+    background-color: #b71c1c; /* Nog donkerder rood */
+    color: white;
+}
+
+.theme-block .button.delete {
+    margin-right: 7px;
+}
+
+/* deadline actions */
+.deadline-passed {
+    color: #e74c3c !important;
+    font-weight: bold;
+}
+
+.deadline-soon {
+    color: #f39c12 !important;
+    font-weight: bold;
+}
+
+/* Chart Section On Assessment Results Page -------------------------------------------------------------------------------- */
+.chart-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chart-container h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+    color: var(--dark-text);
+    text-align: center;
+}
+
+/* Make canvas responsive */
+.chart-container canvas {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+
+/* Measurement select drop down menu */
+#measurementSelect {
+    width: auto;
+    min-width: 150px;
+}
+
+/* 'Print Report' PDF On Assessment Results Page -------------------------------------------------------------------------------- */
+
+@media print {
+    /* Reset layout completely */
+    html, body {
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .layout, .main-content, .content, .table-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 1.5cm auto !important;
+        padding: 0.3cm !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+    }
+
+    table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse;
+        page-break-inside: avoid;
+        word-wrap: break-word;
+    }
+
+    /* Hide sidebar & UI elements */
+    .sidebar, #printBtn, #logout, #back, nav, footer {
+        display: none !important;
+    }
+
+    th, td {
+        border: 1px solid black;
+        color: black;
+        padding: 4px;
+        white-space: normal;
+    }
+
+    th {
+        background-color: #f0f0f0;
+    }
+}
+
+
+/* Admin sidebar (Organization/Assessor/User Management) — make labels fit neatly */
+.sidebar .admin-nav a {
+    font-size: 16.5px;
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+}
+
+.main-content {
+    padding-bottom: 96px;
+    scroll-padding-bottom: 96px;
+}
+.content { margin-bottom: 48px; }
+.table-container { margin-bottom: 32px; }
+
+ /*Now the color of the rows of the tables does not change when we move on them with mouse*/
+.table-container tbody tr:hover,
+.table-container table tbody tr:hover {
+    background: inherit ;
+}
+
+/* Styling for sortable table headers in 'Assessor dashboard' -------------------------------------------------------------------------------- */
+/* Make sortable headers look interactive */
+th[data-sort-key] {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 1.2em;
+}
+
+/* Reset any old arrow styles */
+th[data-sort-key]::after {
+    content: none;
+}
+
+/* Active sorted header styles */
+th.sorted-asc::after,
+th.sorted-desc::after {
+    position: absolute;
+    right: 0.4em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    color: #555;
+}
+
+/* Ascending arrow */
+th.sorted-asc::after {
+    content: '▲';
+}
+
+/* Descending arrow */
+th.sorted-desc::after {
+    content: '▼';
+}
+
+
+.table-container table tbody tr:nth-child(even) {
+    background-color: var(--light-blue);
+}
+
+/* Space between table and pager/show-more */
+.table-container .pager {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/* ---- Table column width adjustments in 'Assessor dashboard' ---- */
+
+/* Make the title column narrower */
+#assessmentTable th:nth-child(1),
+#assessmentTable td:nth-child(1) {
+    width: 20%; /* adjust as needed: 15–25% */
+    max-width: 240px;
+    white-space: normal;
+    overflow: visible;
+}
+
+/* Make the date column narrower */
+#assessmentTable th:nth-child(2),
+#assessmentTable td:nth-child(2) {
+    width: 15%;
+    white-space: normal;
+    text-align: left;
+}
+
+/* Make the status dropdown column narrower */
+#assessmentTable th:nth-child(3),
+#assessmentTable td:nth-child(3) {
+    width: 15%;
+}
+
+/* Make the action buttons column wider */
+#assessmentTable th:last-child,
+#assessmentTable td:last-child {
+    width: 40%; /* gives more space for the 4 buttons */
+    min-width: 300px;
+    text-align: center !important;
+}
+
+#assessmentTable thead th:last-child,
+#assessmentTable tbody td:last-child {
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+
+/* ---- Action button group spacing ---- */
+.button-group {
+    gap: 14px;
+    justify-content: center;
+    align-items: center;
+}

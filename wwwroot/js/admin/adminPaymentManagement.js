@@ -1,4 +1,4 @@
-import { getToken, logout, redirectToLogin ,handleResponse} from "./global.js";
+import { getToken, logout, redirectToLogin ,formatDateDayTime} from "../global.js";
 
 window.addEventListener("load", () => {
     const token = getToken();
@@ -15,9 +15,8 @@ window.addEventListener("load", () => {
 const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
-
-function createUserTable() {
-    fetch("/api/user", { method: "GET" })
+function createPaymentTable() {
+    fetch("/api/Payment", { method: "GET" })
         .then(response => {
             console.log(response);
             if (response.ok) {
@@ -26,21 +25,21 @@ function createUserTable() {
                 throw new Error("Error with API");
             }
         })
-        .then(users => {
-            const tableBody = document.querySelector("#userTableBody");
+        .then(payments => {
+            const tableBody = document.querySelector("#paymentTableBody");
             tableBody.innerHTML = "";
 
-            users.forEach(user => {
+            payments.forEach(payment => {
                 const row = document.createElement("tr");
 
                 row.innerHTML = `
-                    <td>${user.userId}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phoneNumber}</td>
-                    <td>${user.role}</td>
-                    <td>${user.instructorId ?? ""}</td>
+                    <td>${payment.paymentId}</td>
+                    <td>${payment.studentAccountId}</td>
+                    <td>${payment.studentName}</td>
+                    <td>${payment.studentLastName}</td>
+                    <td>${payment.amount}</td>
+                    <td>${formatDateDayTime(payment.date)}</td>
+                    <td>${payment.description}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -49,8 +48,8 @@ function createUserTable() {
         .catch(error => {
             console.error("Error", error);
             const msg = document.getElementById("msg");
-            if (msg) msg.textContent = "Error loading users: " + error.message;
+            if (msg) msg.textContent = "Error loading appointments: " + error.message;
         });
 }
 
-window.addEventListener("load", createUserTable);
+window.addEventListener("load", createPaymentTable);
