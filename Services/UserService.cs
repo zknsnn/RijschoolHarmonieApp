@@ -31,6 +31,7 @@ namespace RijschoolHarmonieApp.Services
         public async Task<UserResponseDto> AddAsync(CreateUserDto dto)
         {
             var user = _mapper.Map<User>(dto);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
             await _userRepository.AddAsync(user);
             return _mapper.Map<UserResponseDto>(user);
         }
@@ -43,6 +44,11 @@ namespace RijschoolHarmonieApp.Services
                 throw new KeyNotFoundException("User not found");
 
             _mapper.Map(dto, existingUser);
+
+            if (!string.IsNullOrWhiteSpace(dto.PasswordHash))
+            {
+                existingUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
+            }
 
             await _userRepository.UpdateAsync(existingUser);
         }
