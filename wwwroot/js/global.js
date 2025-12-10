@@ -8,6 +8,11 @@ export function getToken() {
     return localStorage.getItem("token") || localStorage.getItem("accessToken");
 }
 
+export function getUserId() {
+    const id = localStorage.getItem("userId");
+    return id ? parseInt(id) : null; 
+}
+
 export function authHeaders() {
     return { Authorization: "Bearer " + getToken(), "Content-Type": "application/json" };
 }

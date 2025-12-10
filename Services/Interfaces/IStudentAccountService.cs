@@ -9,6 +9,7 @@ namespace RijschoolHarmonieApp.Services
         Task<StudentAccountResponseDto?> GetByIdAsync(int id);
         Task<StudentAccountResponseDto> AddAsync(CreateStudentAccountDto dto);
         Task<StudentAccountResponseDto?> UpdateAsync(UpdateStudentAccountDto dto);
+        Task<StudentAccountResponseDto?> GetByStudentIdAsync(int studentId);
         Task<bool> DeleteAsync(int id);
     }
 }

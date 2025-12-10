@@ -15,11 +15,8 @@
             <div class="logo"><img src="../../images/logoremove.png" alt="logo" /></div>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="/html/adminDashboard.html">User Management</a></li>
-                    <li><a href="/html/admin/adminAppointmantManagement.html">Appointment Management</a></li>
-                    <li><a href="/html/admin/adminStdAccountManagement.html">Student Account Management</a></li>
-                    <li><a href="/html/admin/adminPaymentManagement.html" class="active">Payment Management</a></li>
-                    <li><a href="/html/admin/instructorPriceManagement.html">Instuctor Price Management</a></li>
+                    <li><a href="/html/studentDashboard.html">Agenda</a></li>
+                    <li><a href="/html/student/studentAccount.html" class="active">My Account</a></li>
                 </ul>
             </nav>
         </aside>
@@ -33,16 +30,40 @@
             </header>
 
             <div class="content">
-                <div class="content-header">
-                    <h1>Payment Management</h1>
-                </div>
-
                 <section class="table-container">
+                    <form class="form" id="evidenceForm">
+
+                        <div class="form-group" id="studentId">
+                            <label>Student Id</label>
+                            <input type="text" class="form-value" placeholder="Loading..." disabled>
+                        </div>
+
+                        <div class="form-group" id="studentName">
+                            <label>Name Surname</label>
+                            <input type="text" class="form-value" placeholder="Loading..." disabled>
+                        </div>
+
+                        <div class="form-group" id="totalDebit">
+                            <label>Total Debit</label>
+                            <input type="text" class="form-value" placeholder="Loading..." disabled>
+                        </div>
+
+                        <div class="form-group" id="totalCredit">
+                            <label>Total Credit</label>
+                            <input type="text" class="form-value" placeholder="Loading..." disabled>
+                        </div>
+
+                        <div class="form-group" id="balance">
+                            <label>Balance</label>
+                            <input type="text" class="form-value" placeholder="Loading..." disabled>
+                        </div>
+                    </form>
+                    <p></p>
                     <table>
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Account Id</th>\
+                                <th>Account Id</th>
                                 <th>Name</th>
                                 <th>Last Name</th>
                                 <th>Amount</th>

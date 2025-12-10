@@ -32,8 +32,17 @@ namespace RijschoolHarmonieApp.Services
             return _mapper.Map<StudentAccountResponseDto>(entity);
         }
 
+        public async Task<StudentAccountResponseDto?> GetByStudentIdAsync(int id)
+        {
+            var entity = await _repo.GetByStudentIdAsync(id);
+            if (entity == null)
+                return null;
+
+            return _mapper.Map<StudentAccountResponseDto>(entity);
+        }
+
         public async Task<StudentAccountResponseDto> AddAsync(CreateStudentAccountDto dto)
-        {   
+        {
             // check student accounts
             var allAccounts = await _repo.GetAllAsync();
             if (allAccounts.Any(a => a.StudentId == dto.StudentId))
@@ -63,5 +72,6 @@ namespace RijschoolHarmonieApp.Services
         {
             return await _repo.DeleteAsync(id);
         }
+
     }
 }

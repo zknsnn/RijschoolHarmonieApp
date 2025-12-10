@@ -35,6 +35,16 @@ namespace RijschoolHarmonieApp.Controllers
             return Ok(account);
         }
 
+         [HttpGet("studentId/{id}")]
+        public async Task<ActionResult<StudentAccountResponseDto>> GetByStudentId(int id)
+        {
+            var account = await _studentAccountService.GetByStudentIdAsync(id);
+            if (account == null)
+                return NotFound("Student not found");
+
+            return Ok(account);
+        }
+
         // POST: api/StudentAccounts
         [HttpPost]
         public async Task<ActionResult> Create(CreateStudentAccountDto dto)
