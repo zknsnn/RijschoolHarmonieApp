@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using RijschoolHarmonieApp.DTOs.Payment;
 using RijschoolHarmonieApp.Services;
 
-
 namespace RijschoolHarmonieApp.Controllers
 {
     [ApiController]
@@ -33,6 +32,18 @@ namespace RijschoolHarmonieApp.Controllers
                 return NotFound("Payment not found.");
 
             return Ok(payment);
+        }
+
+        // GET: api/payment/student/{id}
+        [HttpGet("student/{studentId}")]
+        public async Task<ActionResult<List<PaymentResponseDto>>> GetByStudentId(int studentId)
+        {
+            var payments = await _paymentService.GetByStudentIdAsync(studentId);
+
+            if (payments == null || !payments.Any())
+                return NotFound("No payments found for this student.");
+
+            return Ok(payments);
         }
 
         // POST: api/payment
