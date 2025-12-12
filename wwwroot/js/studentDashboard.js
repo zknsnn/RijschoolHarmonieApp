@@ -1,4 +1,4 @@
-import { getToken, logout, redirectToLogin } from "./global.js";
+import { getToken, logout, redirectToLogin, getUserId } from "./global.js";
 
 window.addEventListener("load", () => {
     const token = getToken();
@@ -21,7 +21,8 @@ let currentStartDate = new Date(); // today
 // LOAD APPOINTMENTS
 // ------------------------
 function loadAppointments() {
-    fetch("/api/appointments")
+    const studentId = getUserId();
+    fetch(`/api/appointments/student/${studentId}`)
         .then(res => {
             if (!res.ok) throw new Error("API error: " + res.status);
             return res.json();
