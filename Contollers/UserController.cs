@@ -31,6 +31,16 @@ namespace RijschoolHarmonieApp.Controllers
             return Ok(user);
         }
 
+        [HttpGet("instructor/{instuctorId}")]
+        public async Task<ActionResult<List<UserResponseDto>>> GetByInstructorIdAsync(int instuctorId)
+        {
+            var users = await _userService.GetByInstructorIdAsync(instuctorId);
+            if (users == null)
+                return NotFound("User not found");
+
+            return Ok(users);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
