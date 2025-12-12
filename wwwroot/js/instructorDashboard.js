@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
     const role = localStorage.getItem("role");
 
     // Token or role check
-    if (!token || role !== "Student") redirectToLogin();
+    if (!token || role !== "Instructor") redirectToLogin();
 
     // Optional: show user ID
     console.log("Logged in userId:", localStorage.getItem("userId"));
@@ -21,8 +21,8 @@ let currentStartDate = new Date(); // today
 // LOAD APPOINTMENTS
 // ------------------------
 function loadAppointments() {
-    const studentId = getUserId();
-    fetch(`/api/appointments/student/${studentId}`)
+    const instructorId = getUserId();
+    fetch(`/api/appointments/instructor/${instructorId}`)
         .then(res => {
             if (!res.ok) throw new Error("API error: " + res.status);
             return res.json();

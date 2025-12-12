@@ -28,6 +28,12 @@ namespace RijschoolHarmonieApp.Services
             return user == null ? null : _mapper.Map<UserResponseDto>(user);
         }
 
+        public async Task<List<UserResponseDto>> GetByInstructorIdAsync(int instructorId)
+        {
+            var users = await _userRepository.GetByInstructorIdAsync(instructorId);
+            return _mapper.Map<List<UserResponseDto>>(users);
+        }
+
         public async Task<UserResponseDto> AddAsync(CreateUserDto dto)
         {
             var user = _mapper.Map<User>(dto);

@@ -29,6 +29,15 @@ namespace RijschoolHarmonieApp.Repositories
                 .FirstOrDefaultAsync(p => p.PaymentId == id);
         }
 
+        public async Task<List<Payment>> GetByStudentIdAsync(int studentId)
+        {
+            return await dbHarmonie
+                .Payments.Where(p => p.StudentAccount.StudentId == studentId)
+                .Include(p => p.StudentAccount)
+                    .ThenInclude(sa => sa.Student)
+                .ToListAsync();
+        }
+
         public async Task<Payment> AddAsync(Payment payment)
         {
             dbHarmonie.Payments.Add(payment);

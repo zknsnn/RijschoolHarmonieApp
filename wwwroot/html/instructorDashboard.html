@@ -1,12 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Instructor Dashboard</title>
-    <script type="module" src="/js/instructorDashboard.js" defer></script>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/agenda.css" />
+    <script type="module" src="../js/instructorDashboard.js" defer></script>
 </head>
+
 <body>
-    <h1>Welcome to Instructor Dashboard</h1>
-    <button id="logoutBtn">Logout</button>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo"><img src="../images/logoremove.png" alt="logo" /></div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="/html/instructorDashboard.html" class="active">Agenda</a></li>
+                    <li><a href="/html/instructor/studentList.html">Student List</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <!-- Main content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-actions">
+                    <button id="logoutBtn" class="button logout">Logout</button>
+                </div>
+            </header>
+
+            <div class="content">
+
+                <p id="msg" class="msg"></p>
+
+                <section class="table-container">
+                    <div class="section-header content-header">
+                        <h2></h2>
+                        <a href="?" id="newUser" class="button">New Appointment</a>
+                    </div>
+
+                    <section class="week-agenda-container">
+                        <div class="agenda-header">
+                            <button id="prevWeek" class="nav-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </button>
+                            <h2 id="weekRange">10.12.2025 - 14.12.2025</h2>
+                            <button id="nextWeek" class="nav-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="week-days-header">
+                            <div class="time-column-header">Time</div>
+                            <div class="day-column-header" data-day="0"></div>
+                            <div class="day-column-header" data-day="1"></div>
+                            <div class="day-column-header" data-day="2"></div>
+                            <div class="day-column-header" data-day="3"></div>
+                            <div class="day-column-header" data-day="4"></div>
+                        </div>
+
+                        <div class="week-grid">
+                            <div class="time-column"></div>
+                            <div class="day-column" data-day="0"></div>
+                            <div class="day-column" data-day="1"></div>
+                            <div class="day-column" data-day="2"></div>
+                            <div class="day-column" data-day="3"></div>
+                            <div class="day-column" data-day="4"></div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
 </body>
+
 </html>

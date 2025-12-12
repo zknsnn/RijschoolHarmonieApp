@@ -39,6 +39,12 @@ namespace RijschoolHarmonieApp.Services
             return _mapper.Map<PaymentResponseDto>(payment);
         }
 
+        public async Task<List<PaymentResponseDto>> GetByStudentIdAsync(int studentId)
+        {
+            var payments = await _paymentRepository.GetByStudentIdAsync(studentId);
+            return _mapper.Map<List<PaymentResponseDto>>(payments);
+        }
+
         public async Task<PaymentResponseDto> AddPaymentAsync(CreatePaymentDto dto)
         {
             // Check student

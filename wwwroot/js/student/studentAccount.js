@@ -1,7 +1,6 @@
-import { getToken, logout, redirectToLogin, formatDateDayTime, authHeaders} from "../global.js";
+import { getToken, logout, redirectToLogin, formatDateDayTime, authHeaders } from "../global.js";
 
 const API_STUDENTACCOUNT_WITH_USERID = '/api/StudentAccounts/studentId';
-const API_PAYMENT = '/api/Payment';
 
 function getUserId() {
     const id = localStorage.getItem("userId");
@@ -12,12 +11,14 @@ function getUserId() {
 window.addEventListener("load", () => {
     const token = getToken();
     const role = localStorage.getItem("role");
-    
+
     // Token veya role kontrolü
     if (!token || role !== "Student") redirectToLogin();
 
     // UserId log
     console.log("Logged in userId:", getUserId());
+
+
 
     // Sayfa initialization
     createPaymentTable();
@@ -31,10 +32,13 @@ if (logoutBtn) logoutBtn.addEventListener("click", logout);
 // --- CREATE PAYMENT TABLE ---
 async function createPaymentTable() {
     try {
-        const res = await fetch(API_PAYMENT);
+        const userId = getUserId();
+        const res = await fetch(`/api/Payment/student/${userId}`);
+
         if (!res.ok) throw new Error("Error fetching payments");
 
         const payments = await res.json();
+        console.log("Payments received:", payments);
         const tableBody = document.querySelector("#paymentTableBody");
         tableBody.innerHTML = "";
 
@@ -85,7 +89,7 @@ function fillStudentForm(student) {
 // --- FETCH STUDENT BY USERID ---
 async function fetchStudentAccountWithUserId(id) {
     try {
-        const res = await fetch(`${API_STUDENTACCOUNT_WITH_USERID}/${id}`,{ headers: authHeaders() });
+        const res = await fetch(`${API_STUDENTACCOUNT_WITH_USERID}/${id}`, { headers: authHeaders() });
         if (!res.ok) throw new Error("Failed to fetch student account");
         return await res.json();
     } catch (err) {

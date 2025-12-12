@@ -25,6 +25,11 @@ namespace RijschoolHarmonieApp.Repositories
             return await dbHarmonie.Users.FindAsync(id);
         }
 
+        public async Task<List<User>> GetByInstructorIdAsync(int instructorId)
+        {
+            return await dbHarmonie.Users.Where(s => s.InstructorId == instructorId).ToListAsync();
+        }
+
         public async Task AddAsync(User user)
         {
             dbHarmonie.Users.Add(user);
